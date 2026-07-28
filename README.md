@@ -35,6 +35,18 @@ This repository includes a root TypeScript workspace for Milestone 2 with reusab
 - Run `npm install`
 - Run `npm run typecheck`
 
+TypeScript validation command (run from repository root):
+
+```bash
+npm run typecheck
+```
+
+Optional direct compiler command:
+
+```bash
+npx tsc --noEmit
+```
+
 The Milestone 2 implementation is organized as follows:
 
 - `src/types/models.ts`: Brasaland entity interfaces and report types
