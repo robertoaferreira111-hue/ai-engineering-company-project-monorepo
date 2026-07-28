@@ -28,6 +28,21 @@ This repository is the **starter template** for transversal projects. You will w
 5. **Start implementing** in the right folder — do not dump everything in the root.
 6. **Document** what you add: each new app, service, agent, or pipeline gets a subfolder + README.
 
+## Milestone 2 programming fundamentals
+
+This repository includes a root TypeScript workspace for Milestone 2 with reusable Brasaland data-processing utilities in `src/`.
+
+- Run `npm install`
+- Run `npm run typecheck`
+
+The Milestone 2 implementation is organized as follows:
+
+- `src/types/models.ts`: Brasaland entity interfaces and report types
+- `src/utils/collections.ts`: filtering, grouping, and sorting helpers
+- `src/utils/search.ts`: linear and binary search helpers
+- `src/utils/transformations.ts`: totals, averages, counts, and sales reports
+- `src/utils/validations.ts`: business validation functions
+
 ---
 
 ## How to think about this monorepo
@@ -301,7 +316,7 @@ ai-engineering-company-project-monorepo/
 
 ## Contributors
 
-This template was built as part of the 4Geeks Academy AI Engineering Career Program by [@marcogonzalo](https://www.linkedin.com/in/marcogonzalo) and [@alesanchezr](https://x.com/alesanchezr) and many other contributors. Find out more about our [AI Engineering Course](https://4geeksacademy.com/en/career-programs/ai-engineering), and [other courses](https://4geeksacademy.com/en/program-comparison).
+This template was built as part of the 4Geeks Academy AI Engineering Career Program by [@marcogonzalo](https://www.linkedin.com/in/marcogonzalo) and [@alezanchezr](https://x.com/alesanchezr) and many other contributors. Find out more about our [AI Engineering Course](https://4geeksacademy.com/en/career-programs/ai-engineering), and [other courses](https://4geeksacademy.com/en/program-comparison).
 
 You can find other templates and resources like this at the [4Geeks Academy GitHub page](https://github.com/4geeksacademy).
 

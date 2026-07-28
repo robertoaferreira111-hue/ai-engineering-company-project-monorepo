@@ -1,0 +1,13 @@
+{
+  "name": "brasaland-milestone-2",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Milestone 2 programming fundamentals utilities for Brasaland.",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "validate": "npm run typecheck"
+  },
+  "devDependencies": {
+    "typescript": "^5.9.2"
+  }
+}
