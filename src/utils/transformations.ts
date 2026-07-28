@@ -1,6 +1,7 @@
 import {
   BranchSalesReport,
   ChannelSalesReport,
+  DailySalesReport,
   MenuItem,
   NumericSummary,
   Order,
@@ -97,4 +98,71 @@ export function calculateSalesByChannel(orders: Order[]): ChannelSalesReport[] {
 
 export function calculateAverageOrderValue(orders: Order[]): number {
   return calculateOrderAmountSummary(orders).average;
+}
+
+export function calculateDailySales(orders: Order[]): DailySalesReport[] {
+  const ordersByDate: Record<string, Order[]> = groupBy(orders, (order: Order) => {
+    return order.created_at.slice(0, 10);
+  });
+
+  return Object.entries(ordersByDate)
+    .map(([date, dayOrders]: [string, Order[]]) => {
+      const summary: NumericSummary = calculateOrderAmountSummary(dayOrders);
+
+      return {
+        date,
+        total_sales: summary.total,
+        order_count: summary.count
+      };
+    })
+    .sort((left: DailySalesReport, right: DailySalesReport) => left.date.localeCompare(right.date));
+}
+
+export function calculateCancellationRate(orders: Order[]): number {
+  if (orders.length === 0) {
+    return 0;
+  }
+
+  const cancelledCount: number = orders.filter((order: Order) => order.status === "cancelled").length;
+
+  return cancelledCount / orders.length;
+}
+
+export function calculateOnTimeRate(durationsInMinutes: number[], targetMinutes: number): number {
+  if (durationsInMinutes.length === 0) {
+    return 0;
+  }
+
+  const onTimeCount: number = durationsInMinutes.filter((duration: number) => duration <= targetMinutes).length;
+
+  return onTimeCount / durationsInMinutes.length;
+}
+
+export function calculateRepeatPurchaseRate(orders: Order[]): number {
+  if (orders.length === 0) {
+    return 0;
+  }
+
+  const ordersByCustomer: Record<string, Order[]> = groupBy(orders, (order: Order) => order.customer_id);
+  const customerIds: string[] = Object.keys(ordersByCustomer);
+
+  if (customerIds.length === 0) {
+    return 0;
+  }
+
+  const repeatCustomersCount: number = customerIds.filter((customerId: string) => {
+    return ordersByCustomer[customerId].length > 1;
+  }).length;
+
+  return repeatCustomersCount / customerIds.length;
+}
+
+export function calculateAverageScore(scores: number[]): number {
+  if (scores.length === 0) {
+    return 0;
+  }
+
+  const total: number = scores.reduce((sum: number, score: number) => sum + score, 0);
+
+  return total / scores.length;
 }

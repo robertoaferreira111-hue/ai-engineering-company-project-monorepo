@@ -107,3 +107,23 @@ export interface ChannelSalesReport {
   total_sales: number;
   order_count: number;
 }
+
+export interface DailySalesReport {
+  date: string;
+  total_sales: number;
+  order_count: number;
+}
+
+export interface Promotion {
+  promotion_id: string;
+  name: string;
+  start_date: string;
+  end_date: string;
+  countries: Country[];
+}
+
+export interface PrepTimeRule {
+  category: MenuCategory;
+  minimum_minutes: number;
+  maximum_minutes: number;
+}

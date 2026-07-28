@@ -40,8 +40,8 @@ The Milestone 2 implementation is organized as follows:
 - `src/types/models.ts`: Brasaland entity interfaces and report types
 - `src/utils/collections.ts`: filtering, grouping, and sorting helpers
 - `src/utils/search.ts`: linear and binary search helpers
-- `src/utils/transformations.ts`: totals, averages, counts, and sales reports
-- `src/utils/validations.ts`: business validation functions
+- `src/utils/transformations.ts`: totals, averages, counts, sales reports, and KPI helpers
+- `src/utils/validations.ts`: business validation functions, prep-time validation, and promotion region/date validation
 
 ---
 

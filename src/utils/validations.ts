@@ -10,6 +10,8 @@ import {
   Order,
   OrderChannel,
   OrderStatus,
+  PrepTimeRule,
+  Promotion,
   Reservation,
   ReservationStatus
 } from "../types/models";
@@ -215,6 +217,74 @@ export function validateReservation(reservation: Reservation): ValidationResult 
 
   if (!isIncluded(reservation.status, RESERVATION_STATUSES)) {
     errors.push("status must match a supported reservation status.");
+  }
+
+  return buildResult(errors);
+}
+
+export function validatePrepTimeByCategory(
+  category: MenuCategory,
+  prepTimeMinutes: number,
+  prepRules: PrepTimeRule[]
+): ValidationResult {
+  const errors: string[] = [];
+  const matchingRule: PrepTimeRule | undefined = prepRules.find(
+    (prepRule: PrepTimeRule) => prepRule.category === category
+  );
+
+  if (matchingRule === undefined) {
+    errors.push("A preparation-time rule is required for the given category.");
+    return buildResult(errors);
+  }
+
+  if (prepTimeMinutes < matchingRule.minimum_minutes || prepTimeMinutes > matchingRule.maximum_minutes) {
+    errors.push(
+      `prep time for category ${category} must be between ${matchingRule.minimum_minutes} and ${matchingRule.maximum_minutes} minutes.`
+    );
+  }
+
+  return buildResult(errors);
+}
+
+export function validatePromotionByRegionAndDate(
+  promotion: Promotion,
+  country: Country,
+  referenceDateIso: string
+): ValidationResult {
+  const errors: string[] = [];
+
+  if (!hasText(promotion.promotion_id)) {
+    errors.push("promotion_id is required.");
+  }
+
+  if (!hasText(promotion.name)) {
+    errors.push("name is required.");
+  }
+
+  if (!isIsoDate(promotion.start_date) || !isIsoDate(promotion.end_date)) {
+    errors.push("promotion start_date and end_date must be valid ISO date strings.");
+    return buildResult(errors);
+  }
+
+  if (!isIsoDate(referenceDateIso)) {
+    errors.push("referenceDateIso must be a valid ISO date string.");
+    return buildResult(errors);
+  }
+
+  const startDate: number = Date.parse(promotion.start_date);
+  const endDate: number = Date.parse(promotion.end_date);
+  const referenceDate: number = Date.parse(referenceDateIso);
+
+  if (startDate > endDate) {
+    errors.push("promotion start_date must be before or equal to end_date.");
+  }
+
+  if (!promotion.countries.includes(country)) {
+    errors.push("promotion is not valid for the given country.");
+  }
+
+  if (referenceDate < startDate || referenceDate > endDate) {
+    errors.push("promotion is not active on the provided reference date.");
   }
 
   return buildResult(errors);
